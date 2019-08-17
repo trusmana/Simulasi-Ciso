@@ -1,0 +1,27 @@
+{% extends 'registration/base.html' %}
+
+{% block content %}
+ <div class="login_box" style="margin-top: 30.5px;">
+  <form class="form-signin" method="post">{% csrf_token%}
+    <h2 class="top_b">Login Aplikasi</h2>
+    <br>
+    
+    <div class="formRow">
+    	<div class="input-prepend">
+        <span class="add-on"><i class="icon-user"></i></span>{{ form.username }}</span>
+        </div>
+    </div>
+
+    <div class="formRow">
+    	<div class="input-prepend">
+    	<span class="add-on"><i class="icon-lock"></i></span>{{ form.password }}</span>
+        </div>
+    </div>
+    
+    <button class="btn btn-large btn-primary " type="submit">Sign in</button>
+  </form>
+
+
+
+{% endblock %}
+

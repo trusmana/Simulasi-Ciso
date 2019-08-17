@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" class="login_page">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}KSPRA{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="/static/kspra/css/login/login.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/bootstrap/image/bsm.ico">
+    <link href="/static/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container-fluid">
+          <a class="brand" href ="" ><i class="icon-home icon-white"></i> CISO <span class="sml_t">Kspra</span></a>
+        </div>
+      </div>
+      {% if form.errors %}
+      <div class="alert alert-{{ message.tags }}"><a class="close" data-dismiss="alert" href="/login/">&times;</a> <strong>
+      Username atau password Anda Tidak Cocok. Coba Lagi</strong></div>
+      {% endif %}
+    </div>
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span12">
+          {% block content %}          
+          {% endblock %}         
+        </div>
+      </div>
+      <br>
+      <footer>
+        <p align="center">&copy;<b><font font="Arial">TEAM IT KSP RIZKY ABADI &#64; 2018-10-19 </font> </b></p>              
+      </footer>
+    </div>
+  </body>
+</html>
+

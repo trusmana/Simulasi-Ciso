@@ -1,0 +1,13 @@
+<script src="/static/bootstrap/number/jquery-migrate-1.2.1.js"  type="text/javascript"></script>
+<script src="/static/js/jquery.meio.mask.min.js?{% now "s" %}" type="text/javascript"></script>
+<script type="text/javascript" src="/static/js/script_jo.js"></script>
+<script type="text/javascript" src="/static/js/simulasi/simulasi.js"></script>
+<script type="text/javascript">
+$(document).ready(function($) {
+    $("input:text").setMask();
+    $('.tabular').submit(function(){
+        $('input.uang').each(function () { $(this).val(to_number($(this).val())); });
+        return true;
+    });
+});
+</script>

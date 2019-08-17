@@ -1,0 +1,79 @@
+{% load number_format  %}
+<table>
+    <tr><td><b>Data Pengajuan Simulasi</b></td><td></td></tr>   
+    <tr>
+        <td>Tanggal Lahir</td>
+        <td>: {{h_ajax.tgl_lahir}}</td>
+        <td>Parameter</td>
+        <td>: {{h_ajax.param}}</td>
+    </tr>
+    <tr>
+        <td>Kantor Bayar</td>
+        <td>: {% if h_ajax.kb == '1' %} Kantor Pos{% elif h_ajax.kb == '2' %}Bank BSB {% else %} Bank Bukopin{% endif %}</td>
+        <td>Status Pensiun</td>
+        <td>: {% if h_ajax.s_pens == '1' %}Sendiri {% elif h_ajax.s_pens == '2' %}Janda{% elif h_ajax.s_pens == '3' %}Duda Sendiri{% else %}Duda Turunan{% endif%} </td>
+    </tr>
+
+    <tr>
+        <td>Jenis Pengajuan</td>
+        <td>: {% if h_ajax.j_aju == '1' %} SKEP ONHAND {% else %}Take Over {% endif%}</td>
+        <td>Produk</td>
+        <td>: {% if h_ajax.produk == '1' %} Sahabat Pensiun {% elif h_ajax.produk == '2' %}Platinum BSB{% else %}Platinum Bukopin {% endif%}</td>
+    </tr>
+
+</table>
+<br>
+<table>
+    <tr>
+        <td>Bunga / tahun</td>
+        <td>: {{h_ajax.bunga}} %</td>
+    </tr>
+    <tr>
+        <td>Tanggal Pengajuan</td>
+        <td>: {{h_ajax.tgl|date:"d-M-Y"}}</td>
+    </tr>
+    <tr>
+        <td>Plafond Pengajuan</td>
+        <td>: {{h_ajax.plafon|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>Jangka Waktu</td>
+        <td>: {{h_ajax.tenor}} Bulan</td>
+    </tr>
+    <tr>
+        <td>Provisi &amp; Adm</td>
+        <td>: {{h_ajax.adm_provisi|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>Angsuran / Bulan</td>
+        <td>: {{h_ajax.angsuran|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>Retensi</td>
+        <td>: {{h_ajax.retensi|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>Mutasi</td>
+        <td>: {{h_ajax.h_mt|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>Biaya Asuransi </td>
+        <td>: {{h_ajax.asuransi|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>Perkiraan Terima Bersih Menggunakan Asuransi Opsi </td>
+        <td>: {{h_ajax.tb|number_format:0}}</td>
+    </tr>
+    <tr>
+        <td>&nbsp;</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td colspan='2'>Untuk penentuan nominal Asuransi apakah menggunakan
+            silahkan konfirmasi terlebih dahulu dengan bagian Operasional</td>
+        </tr>
+</table>

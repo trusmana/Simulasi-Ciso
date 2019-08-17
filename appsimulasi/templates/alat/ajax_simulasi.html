@@ -1,0 +1,191 @@
+<script>
+function ceknilai(elem)
+{
+    $('#'+elem).keydown(function(event) {
+    if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 190 ||  
+                 // Allow: Ctrl+A
+                (event.keyCode == 65 && event.ctrlKey === true) || 
+                 // Allow: home, end, left, right
+                (event.keyCode >= 35 && event.keyCode <= 39) || event.keyCode==13) {
+                     // let it happen, don't do anything
+                     return;
+            }
+            else {
+                // Ensure that it is a number and stop the keypress
+                if ((event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+                    event.preventDefault();
+                    $('#'+elem).val(''); 
+                }   
+    };
+    });
+}
+
+function tigatahunusia()
+{
+    var tanggal_lahir = $('#tanggal_lahir').val();
+    var tgllahir_sk = $('#id_tgllahir_sk').val();
+    var dataString = 'tanggal_lahir='+tanggal_lahir+'&tgllahir_sk='+tgllahir_sk;
+    $.ajax({
+        url: "/utigatahun/",
+        data:dataString,
+        dataType:"JSON",
+        success: function(data){
+    if(data.result == '1'){
+            $('#id_tgllahir_sk').val(data.tgllahir_sk);
+        }
+    else{            
+            jAlert('Kriteria usia Melebihi dari Tiga Tahun!')                     
+                $('#id_tgllahir_sk').val('')
+                return false;                
+        }                                
+    }        
+    });   
+}
+
+function cek_usia_form()
+{
+    var usia = $('#thnusia').val();
+    var bulan = $('#blnusia').val();
+    var hari = $('#hariusia').val();
+    var tglinput = $('#tgllahir').val();
+    var produk = $('#id_jenis_produk').val();
+    var sts_pens= $('#id_jenis_sk').val();
+    var j_aju =$('#id_status_pengajuan').val();
+    var kode_inst = $('#kode_inst').val();
+    var dataString = 'usia='+usia+'&produk='+produk+'&bulan='+bulan+'&hari='+hari+'&tglinput='+tglinput+'&kode_inst='+kode_inst+'&sts_pens='+sts_pens+'&j_aju='+j_aju;
+    $.ajax({
+        url: "/cek_usia_cair/",
+        data: dataString,        
+        dataType: "JSON",        
+        success: function(data){            
+	if(data.result=='1'){
+	     if(data.tenor_maks <= '0'){
+	         jAlert('Kriteria usia tidak memasuki persyaratan untuk produk ini!')                     
+                 tenor_kosong()
+                 $('#id_jenis_pengajuan').val('')
+                 $('#id_jangka_waktu').val('')
+                 $('#id_jenis_produk').val('')
+                 return false;
+	     }else{
+                 $('#tenormaks').val(data.tenor_maks);
+                 $('#pers_max').val(data.dsr);
+                 $('#id_param').val(data.id_param);
+                 $('#tgllahir').val(data.tgllahir);
+                 //maks_angsuran()     
+	     }                                
+	}else{
+	     jAlert('Perhatian:  Anda Memilih Produk Yang Salah !!!!')
+                $('#id_jenis_pengajuan').val('')
+                $('#id_jangka_waktu').val('')
+                $('#id_jenis_produk').val('')
+                tenor_kosong();
+		return false;
+		}
+        }
+    });   
+}
+
+function validasi_tenor(){
+
+    var tenormaks = parseFloat(to_number($("#tenormaks").val()))
+    tahun =$('#id_jangka_waktu').val();
+    if(tahun > tenormaks )
+    {
+        jAlert('Tenor Pengajuan Melebihi Tenor Maksimal');
+        $('#id_jangka_waktu').val('');
+        $('#id_jangka_waktu').focus();
+    }
+}
+
+
+
+function maks_plafond_cair()
+{
+    var gaji = parseFloat(to_number($("#gajibersih").val()));
+    var usia = $('#thnusia').val();
+    var produk = $('#id_jenis_produk').val();
+    var kode_inst = $('#kode_inst').val();
+    var sts_pens= $('#id_status_pensiun').val();
+    var j_aju =$('#id_jenis_pengajuan').val();
+    var tenor = $('#id_jangka_waktu').val();
+
+    var dataString ='usia='+usia+'&produk='+produk+'&kode_inst='+kode_inst+'&sts_pens='+sts_pens+'&j_aju='+j_aju+'&gaji='+gaji+'&tenor='+tenor;
+    $.ajax({
+        url: "/maks_plafond_cair/",
+        data: dataString,        
+        dataType: "JSON",        
+        success: function(data){            
+	    $('#plafonmax').val(format_number(String(Math.round(data.plafond))));
+            $('#flat_bln').val(data.flatbulan);
+            $('#flat').val(data.flattahun);
+            $('#effektif').val(data.effektif);
+            //tenor_kosong();
+        }
+    });   
+    
+}
+
+
+function cek_ulang_kredit()
+{
+    var usia = $('#thnusia').val();
+    var bulan = $('#blnusia').val();
+    var hari = $('#hariusia').val();
+    var tgl_pengajuan = $('#tglinput').val();
+    var sts_pens= $('#id_status_pensiun').val();
+    var j_aju =$('#id_jenis_pengajuan').val();        
+    var produk = $('#produk').val();
+    var kantor_bayar = $('#kode_inst').val();    
+    var gaji = $('#gajibersih').val();
+    var tenor = $('#tenor').val();
+    var plafond = parseFloat(to_number($("#plafonusul").val()));
+    var param =$('#id_param').val()
+    var flatbln =$('#flat_bln').val()
+    var tgllahir = $('#tgllahir').val()
+    var dataString = 'gaji='+gaji+'&produk='+produk+'&kantor_bayar='+kantor_bayar+'&tenor='+tenor+'&usia='+usia+'&bulan='+bulan+'&hari='+hari+'&plafond='+plafond+'&tgl_pengajuan='+tgl_pengajuan+'&sts_pens='+sts_pens+'&j_aju='+j_aju+'&param='+param+'&flatbln='+flatbln+'&tgllahir='+tgllahir;
+    $.ajax({
+        url: "/show_simulasi/",
+        data: dataString,        
+        dataType: "JSON",
+	beforeSend: function () {
+             $("#mymodal .modal-content").html("");
+             $("#mymodal").modal("show");
+        },
+        success: function (data) {
+            $("#mymodal .modal-content").html(data.django_form);
+        }    
+    });   
+}
+
+
+function choose_kri()
+{
+    $('#tenor').val('');
+    $('#plafonusul').val('');
+    $('#plafonmax').val('0');
+}
+function kosong()
+{
+	$('#jenis').val('');
+}
+function id_kos()
+{
+    $('#id_param').val('');
+    $('#pers_max').val('');
+    $('#tenormaks').val('')
+}
+function tenor_kosong()
+{
+    $('#tenor').val('');
+    $('#plafonusul').val('');
+    $('#angsuran').val('');
+}
+function kosongkan()
+{
+    $('#id_plafonmax').val('');
+    $('#id_effektif').val('');
+    $('#id_flat').val('');
+    $('#plafonusul').val('0');
+    $('#plafonmax').val('0');
+}
+</script>
