@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
+from decimal import Decimal
 
 JENIS_PENGAJUAN =(
     ('1','SKEP ON HAND'),('2','TAKE OVER'),
@@ -88,3 +89,10 @@ class ParameterPencairan(models.Model):
     def __unicode__(self):
         return '%s - [ Kantor Bayar:%s ]' %(self.produk.nama_produk, self.get_kantor_bayar_display())
 
+    ### HITUNG ANGSURAN UNTUK SIMULASI DAN YANG INTI JUGA
+    def angsuran_anuitas(self,plafon,tenor):
+        rate = self.bunga / 12
+        angs = (Decimal(plafon)* rate)/(1-1/(1+rate)**int(tenor))
+        bunga = Decimal(plafon) * rate
+        pokok = (round((angs - bunga), 2))
+        return bunga + Decimal(pokok)

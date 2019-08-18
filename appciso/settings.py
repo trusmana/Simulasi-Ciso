@@ -20,7 +20,7 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'core','appsimulasi','paramkredit',
-    'django.contrib.admin',
+    'django.contrib.admin','import_export',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -110,3 +110,5 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS =(
     os.path.join(BASE_DIR, 'assets'),
 )
+
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
