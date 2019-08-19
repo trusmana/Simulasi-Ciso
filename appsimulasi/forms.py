@@ -51,4 +51,4 @@ class SimulasiForm(forms.Form):
     n_retensi = forms.IntegerField(widget=forms.TextInput(attrs={'size': 9,'readonly':'True',
         'class':'uang input-medium ttip_r','alt':'integer','oldtitle':'Nilai Retensi'}))
     kode_bank = forms.ChoiceField(choices=KODE_BANK,widget=forms.Select(attrs={'class':'input-small ttip_r',
-        'title':'9','onchange':'h_mutasi()'}))
+        'title':'9'}))

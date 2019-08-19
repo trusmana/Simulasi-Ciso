@@ -84,7 +84,7 @@ def hitung_mutasi(request):
         mutasi = request.GET.get('mutasi',None)
         hs_param = ParameterPencairan.objects.get(pk=param)
         ang_bunga = Decimal(plafon) * ((Decimal(hs_param.bunga)) / Decimal(12));
-        sts_mutasi = int(mutasi)
+        sts_mutasi =mutasi
         if sts_mutasi == int(2) and hs_param.produk.id_prod == 1:
             angsuran = hs_param.angsuran_anuitas(int(plafon),int(tenor))
             result = '2'
@@ -115,18 +115,18 @@ def val_retensi(request):
         ang_pokok = int(plafon) / int(tenor)
         hs_param = ParameterPencairan.objects.get(pk=param)
         ang_bunga = Decimal(plafon) * ((Decimal(hs_param.bunga)) / Decimal(12));
-        sts_mutasi = int(mutasi)
-        if sts_mutasi == int(1) and hs_param.produk.id_prod != 1:
+        sts_mutasi = mutasi
+        if sts_mutasi == 1 and hs_param.produk.id_prod != 1:
             angsuran = ang_pokok + ang_bunga
             result = '1'
             data = {'result':result,'retensi':0,'n_retensi':(angsuran * Decimal(retensi))}
             return HttpResponse(JsonResponse(data))
-        elif sts_mutasi == int(2) and retensi == '1':
+        elif sts_mutasi == 2 and retensi == '1':
             angsuran = hs_param.angsuran_anuitas(int(plafon),int(tenor))
             result = '2'
             data = {'result':result,'retensi':2,'n_retensi':(angsuran * Decimal(1))}
             return HttpResponse(JsonResponse(data))
-        elif sts_mutasi == int(2) and retensi != '1' and hs_param.produk.id_prod == 1:
+        elif sts_mutasi == 2 and retensi != '1' and hs_param.produk.id_prod == 1:
             angsuran = ang_pokok + ang_bunga 
             result = '3'
             data = {'result':result,'retensi':2,'n_retensi':(angsuran * Decimal(retensi))}
