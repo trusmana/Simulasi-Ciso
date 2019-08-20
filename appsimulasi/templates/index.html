@@ -76,7 +76,7 @@
        </div>
         <div class="span4"> 
            <div class="form-actions">
-              <button class="btn btn-inverse tablular" type="button" onclick="cek_ulang_kredit()" >
+              <button class="btn btn-inverse js-show-hitung" type="button" data-url="{% url 'appsimulasi:show_simulasi' %}" >
               <i class="icon-white icon-ok-circle"></i>
               Hitung</button>
               <button class="btn"><a href="/">Cancel</a></button>
@@ -86,17 +86,18 @@
     </div>
 </div>
 
-<div class="modal hide fade" id="mymodal">
+<div class="modal hide " id="mymodal">
     <div class="modal-dialog">
       <div class="modal-content">
 
       </div>
     </div>
-</div>
+  </div>
 
 
 {% block javascript %}
  {% include 'alat/ajax_simulasi.js' %}
+ {% include 'alat/ajax_new.js' %}
 {% endblock %}
 
 

@@ -12,7 +12,7 @@ from django.contrib.auth.decorators import login_required
 def save_simulasi_form(request, h_ajax, template_name):
     data = dict()
     context = {'h_ajax': h_ajax}
-    data['mymodal'] = render_to_string('index.html')
+    #data['mymodal'] = render_to_string('index_list.html')
     data['django_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
 
@@ -53,6 +53,7 @@ def show_simulasi(request):
         'retensi':retensi,'h_mt':mt,'tgl_lahir':tgllahir,'param':param,'kb':inst,'s_pens':s_pens,
         'j_aju':j_aju,'produk':produk}
     return save_simulasi_form(request, h_ajax, 'create_simulasi.html')
+
 
 
 def load_usialunas(tgl,tenor,param,plafon,hs_param):
