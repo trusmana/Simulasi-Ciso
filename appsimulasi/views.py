@@ -15,7 +15,7 @@ def save_simulasi_form(request, h_ajax, template_name):
     #data['mymodal'] = render_to_string('index_list.html')
     data['django_form'] = render_to_string(template_name, context, request=request)
     return JsonResponse(data)
-
+@login_required
 def show_simulasi(request):
     j_aju = request.GET.get('j_aju',None)
     produk = request.GET.get('produk',None)
@@ -83,16 +83,16 @@ def hitung_mutasi(request):
         tenor = request.GET.get('tenor', None)
         plafon = request.GET.get('plafond', None)
         mutasi = request.GET.get('mutasi',None)
+        ang_pokok = int(plafon) / int(tenor)
         hs_param = ParameterPencairan.objects.get(pk=param)
         ang_bunga = Decimal(plafon) * ((Decimal(hs_param.bunga)) / Decimal(12));
-        sts_mutasi =mutasi
+        sts_mutasi = int(mutasi)
         if sts_mutasi == int(2) and hs_param.produk.id_prod == 1:
             angsuran = hs_param.angsuran_anuitas(int(plafon),int(tenor))
             result = '2'
             data = {'result':result,'retensi':2,'n_retensi':(angsuran * 2)}
             return HttpResponse(JsonResponse(data))
         elif sts_mutasi == int(2) and hs_param.produk.id_prod != 1:
-            ang_pokok = int(plafon) / int(tenor)
             angsuran = ang_pokok + ang_bunga
             result = '2'
             data = {'result':result,'retensi':2,'n_retensi':(angsuran * 2)}
